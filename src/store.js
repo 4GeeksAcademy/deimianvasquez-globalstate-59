@@ -6,7 +6,8 @@ export const initialStore = () => {
     user: {
       id: 1,
       lastname: "Deimian Vásquez"
-    }
+    },
+    people:[]
   }
 }
 
@@ -42,6 +43,12 @@ export default function storeReducer(store, action = {}) {
       return{
         ...store,
         favorites: [...store.favorites, action.payload]
+      }
+
+    case 'SET_CHARACTER':
+      return {
+        ...store,
+        people: action.payload
       }
     default:
       throw Error('Unknown action.'); // O devuelva el state

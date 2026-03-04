@@ -6,7 +6,7 @@ export const Navbar = () => {
     const { store } = useGlobalReducer()
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-sm navbar-dark bg-dark z-3">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">Navbar</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

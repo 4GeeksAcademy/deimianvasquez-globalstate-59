@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import useGlobalReducer from "../hooks/useGlobalReducer"
+import { Spiner } from "../components/Spiner"
 
-const urlBaseRick = "https://rickandmortyapi.com/api/character"
+import { getCharacterRick } from "../services/rickAndMortyService"
+
 
 export const Products = () => {
-    const [character, setCharacter] = useState([])
+    const [loading, setLoading] = useState(false)
+    const { dispatch, store } = useGlobalReducer()
 
-    const {dispatch} = useGlobalReducer()
 
     async function getCharacter() {
         try {
-            const response = await fetch(urlBaseRick)
-            const data = await response.json()
-
-            if (response.ok) {
-                setCharacter(data.results)
-            }
-
+            setLoading(true)
+            const response = await getCharacterRick()
+            dispatch({type:"SET_CHARACTER", payload: response})
         } catch (error) {
 
+        } finally {
+            setLoading(false)
         }
     }
 
 
-    function addFav(fav){
-        console.log(fav)   
-        dispatch({type: "SET_FAV", payload:fav})
+    function addFav(fav) {
+        console.log(fav)
+        dispatch({ type: "SET_FAV", payload: fav })
     }
 
     useEffect(() => {
@@ -34,12 +34,17 @@ export const Products = () => {
     }, [])
 
 
+    if (loading) {
+        return <Spiner />
+    }
+
+
     return (
         <div className="container">
             <div className="row">
 
                 {
-                    character.map((item) => {
+                    store.people.map((item) => {
                         return (
                             <div key={item.id} className="col-12 col-sm-6 col-md-4">
                                 <div className="border mt-2">
@@ -50,10 +55,10 @@ export const Products = () => {
                                         <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
                                         <div className="d-flex justify-content-between">
                                             <Link to={`/product/${item.id}`} className="btn btn-primary">Ver detalle</Link>
-                                            <button 
+                                            <button
                                                 className="btn btn-danger"
-                                                onClick={()=>addFav(item)}
-                                                >ADD</button>
+                                                onClick={() => addFav(item)}
+                                            >ADD</button>
                                         </div>
 
                                     </div>
