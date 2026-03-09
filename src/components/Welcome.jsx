@@ -5,7 +5,7 @@ export const Welcome = () => {
     const {store} = useGlobalReducer()
     const {user} = store
     
-    console.log(useGlobalReducer())
+    
     return (
         <div className="container">
             <div className="row">
